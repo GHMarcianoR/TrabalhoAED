@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/TrabalhoAED.dir/main.cpp.o CMakeFiles/TrabalhoAED.dir/No.cpp.o CMakeFiles/TrabalhoAED.dir/Lista.cpp.o CMakeFiles/TrabalhoAED.dir/Tabela.cpp.o CMakeFiles/TrabalhoAED.dir/Leitor_Arquivo.cpp.o CMakeFiles/TrabalhoAED.dir/Banco.cpp.o  -o TrabalhoAED 
