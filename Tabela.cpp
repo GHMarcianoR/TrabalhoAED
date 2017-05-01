@@ -13,6 +13,9 @@ Tabela::Tabela(int t)
         colunas[i] = NULL;
     qtdCampos = 0;
     qtdPosicoesOcupadas = 0;
+    proxima = NULL;
+    nomeTabela ="";
+    campos = NULL;
 
 
 }
@@ -40,24 +43,45 @@ void Tabela::defineCampos(std::string *s, int tam)
 
 void Tabela::inserirCampos(Lista *l)
 {
-     int h = hash(l->retornaID());
-    if(qtdPosicoesOcupadas >= tamanhoTabela)
+    if(l != NULL)
     {
-        redimensiona();
-    }
-    if(colunas[h] == NULL)
-    {
-        colunas[h] = l;
-        qtdPosicoesOcupadas++;
-    }
-    else
-    {
-       Lista *it = colunas[h];
-       while(it->retornaProximo() != NULL)
-           it = it->retornaProximo();
-         it->defineProximo(l);
+        int h = hash(l->retornaID());
+        if(qtdPosicoesOcupadas >= tamanhoTabela)
+        {
+            redimensiona();
+        }
+        if(colunas[h] == NULL)
+        {
+            colunas[h] = l;
+            qtdPosicoesOcupadas++;
+        }
+        else
+        {
+            Lista *it = colunas[h];
+            while(it->retornaProximo() != NULL)
+                it = it->retornaProximo();
+            it->defineProximo(l);
+        }
+
     }
 
+
+}
+void Tabela::inserirCamposRedimensiona(Lista *l)
+{
+    if(l != NULL)
+    {
+        int h = hash(l->retornaID());
+        if (colunas[h] == NULL) {
+            colunas[h] = l;
+            qtdPosicoesOcupadas++;
+        } else {
+            Lista *it = colunas[h];
+            while (it->retornaProximo() != NULL)
+                it = it->retornaProximo();
+            it->defineProximo(l);
+        }
+    }
 }
 void Tabela::imprimir()
 {
@@ -70,23 +94,32 @@ void Tabela::redimensiona()
     int novoT = tamanhoTabela*2;
     Lista** col = colunas;
 
-    delete [] colunas;
-
     colunas = new Lista*[novoT];
 
     for(int i = 0; i<novoT; i++)
         colunas[i]= NULL;
-    for(int i = 0; i<tamanhoTabela; i++)
-        colunas[i] = col[i];
 
- //   qtdPosicoesOcupadas = tamanhoTabela;
+    for(int i = 0; i<tamanhoTabela; ++i)
+        if (col[i] != NULL)
+              inserirCamposRedimensiona(col[i]);
+
+
+
+
     tamanhoTabela = novoT;
 
 }
 
-int Tabela::hash(std::string str)
+int Tabela::hash(std::string s)
 {
-    return abs((int) hs(str) % tamanhoTabela);
+   long int  hashedValue = 3628273133;
+    for(int i=0; i<s.size(); i++)
+    {
+        hashedValue += s[i];
+        hashedValue *= 3367900313;
+    }
+    return  abs((int)hashedValue % tamanhoTabela);
+
 }
 
 int Tabela::retornaQtdCampos() {return qtdCampos;}

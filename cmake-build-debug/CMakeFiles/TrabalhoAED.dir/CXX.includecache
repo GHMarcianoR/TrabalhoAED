@@ -17,8 +17,6 @@ Tabela.h
 /home/zumbi/CLionProjects/TrabalhoAED/Leitor_Arquivo.cpp
 Leitor_Arquivo.h
 /home/zumbi/CLionProjects/TrabalhoAED/Leitor_Arquivo.h
-stdlib.h
--
 
 /home/zumbi/CLionProjects/TrabalhoAED/Leitor_Arquivo.h
 fstream
@@ -69,4 +67,10 @@ Leitor_Arquivo.h
 /home/zumbi/CLionProjects/TrabalhoAED/Leitor_Arquivo.h
 Banco.h
 /home/zumbi/CLionProjects/TrabalhoAED/Banco.h
+timer.h
+/home/zumbi/CLionProjects/TrabalhoAED/timer.h
+
+/home/zumbi/CLionProjects/TrabalhoAED/timer.h
+sys/time.h
+-
 

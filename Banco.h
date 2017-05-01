@@ -15,13 +15,13 @@ class Banco {
     int qtdTabelas;
     int qtdPosicoesOcupadas;
     int hash(std::string str);
-
+    void insereNovaTabelaRedimensiona(Tabela* t);
     void redimensiona();
 public:
     Banco(int tamanho);
     void setTabelas(Tabela** t, int tam);
     void insereNovaTabela(Tabela *t);
-    Tabela* getTabela(std::string nome);
+    Tabela* retornarTabela(std::string nome);
 
 
 

@@ -117,6 +117,9 @@
 		<Unit filename="/home/zumbi/CLionProjects/TrabalhoAED/main.cpp">
 			<Option target="TrabalhoAED"/>
 		</Unit>
+		<Unit filename="/home/zumbi/CLionProjects/TrabalhoAED/timer.h">
+			<Option target="TrabalhoAED"/>
+		</Unit>
 		<Unit filename="/home/zumbi/CLionProjects/TrabalhoAED/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

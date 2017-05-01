@@ -10,16 +10,18 @@
 
 class Tabela {
 
-    std::string nomeTabela;
+
     Lista** colunas;
-    std::hash<std::string> hs;
+    std::string nomeTabela;
+    std::string* campos;
+    Tabela *proxima;
     int tamanhoTabela;
     int qtdPosicoesOcupadas;
     int qtdCampos;
-    std::string* campos;
-    Tabela *proxima;
-   int hash(std::string str);
+
+    int hash(std::string str);
     void redimensiona();
+    void inserirCamposRedimensiona(Lista *l);
 public:
     Tabela(int t);
     Lista* retornaLinha(std::string str);

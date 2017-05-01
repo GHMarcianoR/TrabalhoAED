@@ -14,6 +14,7 @@ class Lista {
     std::string id;
     Lista *prox;
     int tamanho;
+
 public:
     Lista();
     ~Lista();

@@ -18,14 +18,20 @@ class Leitor_Arquivo {
 
     std::ifstream arquivo;
     Tabela** tabela;
-    void carregaDados();
+    std::string nomeArquivo;
+    std::string *tab_IDs;
+    int qtdTabelasArquivo;
+
+    int tamTabelasArquivo;
     int contaTab(std::string& s);
     int contaEsp(std::string& s );
-
+    void criaTabelas();
+    void carregaDados();
 
 public:
    Leitor_Arquivo(std::string nomeArquivo);
-    void criaTabelas();
+
+    void coletaDados();
     Tabela** retornaTabelas();
      std::string &ltrim(std::string &s);
      std::string &rtrim(std::string &s);

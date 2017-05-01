@@ -4,7 +4,7 @@
 
 #include "Lista.h"
 
-Lista::Lista(){ primeiro = ultimo = NULL; tamanho =0; prox = NULL;}
+Lista::Lista(){ primeiro = ultimo = NULL; tamanho =0; prox = NULL; id = "";}
 Lista::~Lista()
 {
     No* p = primeiro;

@@ -5,7 +5,9 @@
 #ifndef TRABALHOAED_NO_H
 #define TRABALHOAED_NO_H
 
+
 #include <string>
+
 class No
 {
     std::string info;

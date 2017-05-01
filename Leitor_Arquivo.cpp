@@ -3,19 +3,20 @@
 //
 
 #include "Leitor_Arquivo.h"
-#include <stdlib.h>
+
 
 Leitor_Arquivo::Leitor_Arquivo(std::string nomeArquivo)
 {
 
-    arquivo.open(nomeArquivo, std::fstream::in);
+    this->nomeArquivo = nomeArquivo;
+    arquivo.open(this->nomeArquivo, std::fstream::in);
     if(!arquivo.good())
     {
         std::cout<<"Erro durante a leitura do arquivo"<<std::endl;
         exit(-1);
 
     }
-    tabela = new Tabela*[10];
+    tabela = new Tabela*[qtdTabelasArquivo];
 
 }
 int Leitor_Arquivo::contaTab(std::string &s)
@@ -44,7 +45,7 @@ void Leitor_Arquivo::criaTabelas()
       std::string linha;
       std::string l1;
 
-      while(!arquivo.eof() && contTabela != 10)
+      while(!arquivo.eof() && contTabela != qtdTabelasArquivo)
       {
             getline(arquivo,linha);
             std::string *str = new std::string[contaEsp(linha)];
@@ -62,7 +63,7 @@ void Leitor_Arquivo::criaTabelas()
           indStr = 0;
            if(linha.find("CREATE TABLE") != std::string::npos)
            {
-               tabela[contTabela] = new Tabela(20000);
+               tabela[contTabela] = new Tabela(1000);
                tabela[contTabela]->defineNomeTabela(trim(str[2]));
            }
           else if(linha.find("    ") != std::string::npos)
@@ -76,6 +77,8 @@ void Leitor_Arquivo::criaTabelas()
                   if(l1[i] == ' ')
                   {
                       nomeCampo[indStr] = l1.substr(ind+1, i-ind);
+                      nomeCampo[indStr] = trim(nomeCampo[indStr]);
+
                       if(!nomeCampo[indStr].empty() && nomeCampo[indStr] != " ")
                       {
                          indStr++;
@@ -88,11 +91,9 @@ void Leitor_Arquivo::criaTabelas()
               indStr = 0;
               l1.clear();
               contTabela++;
-
-
-
           }
       }
+
     carregaDados();
 }
 void Leitor_Arquivo::carregaDados()
@@ -100,10 +101,10 @@ void Leitor_Arquivo::carregaDados()
     int contaTabela = 0;
     std::string linha;
     Tabela* tab;
-    std::string* campos;
-    int indStr = 0, ind  = 1;
+    std::string* campos, id,tab_atual;
+    int indStr = 0, ind  = 0;
 
-    while(!arquivo.eof() && contaTabela < 11)
+    while(!arquivo.eof() && contaTabela < qtdTabelasArquivo+1)
     {
         getline(arquivo,linha);
         linha+="\n";
@@ -112,24 +113,30 @@ void Leitor_Arquivo::carregaDados()
             tab = tabela[contaTabela];
             contaTabela++;
             campos = tab->retornaCampos();
-            std::cout<<"Tabela: "<<contaTabela<<" "<<tab->retornaNomeTabela() <<std::endl;
+           // std::cout<<"Tabela: "<<contaTabela<<" "<<tab->retornaNomeTabela() <<std::endl;
         }
-        else
+        else if (contaTabela > 0)
         {
             Lista* l  = new Lista();
             for(int i = 0; i<linha.size(); i++)
             {
                 if(linha[i] == '\t' ||linha[i]=='\n')
                 {
-
-                    std::string inf = linha.substr(ind,i-ind);
+                   std::string inf = linha.substr(ind,i-ind);
+                    inf = trim(inf);
                    if(!inf.empty())
                    {
                        if(indStr != tab->retornaQtdCampos())
                        {
                            l->inserir(campos[indStr],inf);
-                           if(indStr == 0)
-                               l->defineID(trim(inf));
+                          for(int k = 0; k<qtdTabelasArquivo; k++)
+                              if(tab_IDs[k].find(tab->retornaNomeTabela()) != std::string::npos)
+                              {
+                                  if (tab_IDs[k].find(campos[indStr]) != std::string::npos) {
+                                      l->defineID(l->retornaID() + inf);
+                                    break;
+                                  }
+                              }
                            indStr++;
                        }
                    }
@@ -147,6 +154,61 @@ void Leitor_Arquivo::carregaDados()
 
     }
 
+
+}
+void Leitor_Arquivo::coletaDados()
+{
+    std::ifstream aux;
+    std::string linha,str;
+    int ind =0, cont = 0;
+    std::string *chavesP;
+
+    aux.open(this->nomeArquivo, std::ios::in);
+    if(!aux.good())
+    {
+        std::cout<<"Erro ao abrir o arquivo"<<std::endl;
+        exit(-1);
+    }
+    while(!aux.eof())
+    {
+
+        getline(aux,linha);
+        if(linha.find("CREATE TABLE") != std::string::npos)
+            qtdTabelasArquivo++;
+    }
+    aux.close();
+    aux.open(this->nomeArquivo, std::ios::in);
+    chavesP = new std::string[qtdTabelasArquivo];
+    while(!aux.eof())
+    {
+        getline(aux,linha);
+
+        if(linha.find("PRIMARY KEY") != std::string::npos)
+        {
+
+            linha.replace(0,19,"");
+            for(int i = 0; i< linha.size(); i++)
+            {
+
+               if(linha[i] == ' ')
+               {
+                   linha.replace(i-5,17,"");
+                   linha.replace(linha.size()-2,2,"");
+                   linha.replace(linha.find(' ') + 1,1,"");
+                   chavesP[cont]= linha;
+                   cont++;
+                   break;
+               }
+
+            }
+            linha.clear();
+        }
+    }
+    aux.close();
+   // for(int i = 0; i<qtdTabelasArquivo; i++)
+    //    std::cout<<chavesP[i]<<std::endl;
+    tab_IDs = chavesP;
+  criaTabelas();
 
 }
  std::string &Leitor_Arquivo::rtrim(std::string &s)

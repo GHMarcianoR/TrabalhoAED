@@ -31,4 +31,5 @@ CMakeFiles/TrabalhoAED.dir/main.cpp.o: ../Lista.h
 CMakeFiles/TrabalhoAED.dir/main.cpp.o: ../No.h
 CMakeFiles/TrabalhoAED.dir/main.cpp.o: ../Tabela.h
 CMakeFiles/TrabalhoAED.dir/main.cpp.o: ../main.cpp
+CMakeFiles/TrabalhoAED.dir/main.cpp.o: ../timer.h
 
