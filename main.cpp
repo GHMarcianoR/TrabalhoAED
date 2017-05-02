@@ -5,6 +5,7 @@
 #include "timer.h"
 
 bool menu(Banco* banco);
+void buscaTodosRegistros(Banco *bd, Tabela **tab);
 int main() {
 
     Leitor_Arquivo* arq;
@@ -16,15 +17,20 @@ int main() {
     arq->coletaDados();
     tab = arq->retornaTabelas();
 
-    Banco* bd = new Banco(20);
-    for(int i = 0; i<10; i++)
+    Banco* bd = new Banco(arq->retornarQtdTabelas());
+    for(int i = 0; i<bd->retornarQtdTabelas(); i++)
          bd->insereNovaTabela(tab[i]);
     GET_TIME(fim);
-    std::cout<<"Tempo decorrido para carregar os dados "<<fim-inicio<<"ms\n"<<std::endl;
+    std::cout<<"Tempo decorrido para carregar os dados "<<fim-inicio<<"ms\n\n"<<std::endl;
+
+    buscaTodosRegistros(bd,tab);
+
     while(menu(bd));
 
     return 0;
 }
+
+
 bool menu(Banco *banco)
 {
     std::string nomeTabela,chave;
@@ -53,6 +59,37 @@ bool menu(Banco *banco)
     std::cin>>flag;
 
     return flag;
+
+}
+void buscaTodosRegistros(Banco *bd, Tabela **tab)
+{
+    double inicio,fim;
+    std::string chave;
+    std::string nome;
+    GET_TIME(inicio);
+    for(int i = 0; i<bd->retornarQtdTabelas();i++)
+    {
+        nome = tab[i]->retornaNomeTabela();
+        Lista **l = tab[i]->retornaColunas();
+        int k = 0;
+        while(k != tab[i]->retornaQtdCampos())
+        {
+            if(l[k] != NULL)
+            {
+                chave = l[k]->retornaID();
+                bd->retornarTabela(nome)->retornaLinha(chave);
+                for(;l[k] != NULL; l[k] = l[k]->retornaProximo())
+                {
+                    chave = l[k]->retornaID();
+                    bd->retornarTabela(nome)->retornaLinha(chave);
+                }
+            } k++;
+        }
+    }
+    GET_TIME(fim);
+    std::cout<<"Tempo para buscar todos registros "<<fim-inicio<<"ms\n\n"<<std::endl;
+
+
 
 }
 

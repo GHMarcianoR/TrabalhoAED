@@ -103,23 +103,39 @@ void Tabela::redimensiona()
         if (col[i] != NULL)
               inserirCamposRedimensiona(col[i]);
 
-
-
-
     tamanhoTabela = novoT;
 
 }
 
 int Tabela::hash(std::string s)
 {
-   long int  hashedValue = 3628273133;
+   long int  h = 3628273133;
     for(int i=0; i<s.size(); i++)
     {
-        hashedValue += s[i];
-        hashedValue *= 3367900313;
+        h += s[i];
+        h *= 3367900313;
     }
-    return  abs((int)hashedValue % tamanhoTabela);
+    return  abs((int)h % tamanhoTabela);
 
+}
+
+void Tabela::estatisticas()
+{
+
+    int cont = 0;
+    for(int i = 0; i<tamanhoTabela; i++)
+            if(colunas[i] != NULL)
+            {
+                for(Lista* t = colunas[i]->retornaProximo();
+                    t != NULL;t = t->retornaProximo())
+                {
+                    cont++;
+                }
+
+
+            }
+    std::cout<<"Tabela "<<nomeTabela<<" Tamanho "<<tamanhoTabela<<" Posicoes ocupadas "<<qtdPosicoesOcupadas
+             <<" colisoes "<<cont<<" porcentagem "<<(cont+qtdPosicoesOcupadas)/tamanhoTabela<<std::endl;
 }
 
 int Tabela::retornaQtdCampos() {return qtdCampos;}
@@ -128,3 +144,4 @@ void Tabela::defineProximaTabela(Tabela *t) {proxima = t;}
 void Tabela::defineNomeTabela(std::string nome) { nomeTabela = nome;}
 Tabela* Tabela::retornaProximaTabela() { return proxima;}
 std::string Tabela::retornaNomeTabela() {return nomeTabela;}
+Lista** Tabela::retornaColunas(){return colunas;}

@@ -24,16 +24,18 @@ class Tabela {
     void inserirCamposRedimensiona(Lista *l);
 public:
     Tabela(int t);
+    Tabela* retornaProximaTabela();
     Lista* retornaLinha(std::string str);
     std::string retornaNomeTabela();
-    Tabela* retornaProximaTabela();
+     std::string* retornaCampos();
     int retornaQtdCampos();
-    std::string* retornaCampos();
+    Lista** retornaColunas();
+
 
     void defineProximaTabela(Tabela *t);
     void defineNomeTabela(std::string nome);
     void inserirCampos(Lista * l);
-    void insereNovoCampo(std::string nome);
+    void estatisticas();
     void imprimir();
     void defineCampos(std::string *s, int tam);
 };

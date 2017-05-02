@@ -102,3 +102,4 @@ void Banco::redimensiona()
     qtdTabelas = novoT;
 
 }
+int Banco::retornarQtdTabelas() {return qtdTabelas;}

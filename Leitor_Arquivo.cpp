@@ -227,5 +227,5 @@ std::string& Leitor_Arquivo::ltrim(std::string &s)
     return ltrim(rtrim(s));
 }
 Tabela** Leitor_Arquivo::retornaTabelas() {return tabela;}
-
+int Leitor_Arquivo::retornarQtdTabelas() {return qtdTabelasArquivo;}
 
