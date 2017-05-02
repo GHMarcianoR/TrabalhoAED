@@ -6,7 +6,7 @@
 #include "No.h"
 
 
-No::~No() { }
+No::~No() {info =""; nome_Coluna="";prox=NULL; }
 No::No() {}
 std::string No::getInfo() { return info;}
 No* No::getProximo() {return prox;}

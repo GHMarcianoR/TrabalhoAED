@@ -10,7 +10,7 @@ int main() {
 
     Leitor_Arquivo* arq;
     Tabela** tab;
-    double inicio, fim;
+    double inicio = 0, fim = 0;
 
     GET_TIME(inicio);
     arq = new Leitor_Arquivo("usda.sql");
@@ -21,10 +21,9 @@ int main() {
     for(int i = 0; i<bd->retornarQtdTabelas(); i++)
          bd->insereNovaTabela(tab[i]);
     GET_TIME(fim);
-    std::cout<<"Tempo decorrido para carregar os dados "<<fim-inicio<<"ms\n\n"<<std::endl;
+    std::cout<<"Tempo decorrido para carregar os dados "<<(fim-inicio)<<"s\n\n"<<std::endl;
 
     buscaTodosRegistros(bd,tab);
-
     while(menu(bd));
 
     return 0;
@@ -35,7 +34,7 @@ bool menu(Banco *banco)
 {
     std::string nomeTabela,chave;
     bool flag = 1;
-    double ini, fim;
+    double ini = 0, fim = 0;
     std::cout<<"Digite o nome da tabela"<<std::endl;
     std::cin>>nomeTabela;
     std::cout<<"Digite a chave primaria (caso seja composta, nao adicione espaco)"<<std::endl;
@@ -49,8 +48,8 @@ bool menu(Banco *banco)
         Lista * l = t->retornaLinha(chave);
         if(l == NULL)
             std::cout<<"Impossivel encontrar registro com chave primaria "<<chave<<std::endl;
-        else
-          l->imprimeCampos();
+        //else
+     //     l->imprimeCampos();
 
     }
     GET_TIME(fim);
@@ -63,31 +62,41 @@ bool menu(Banco *banco)
 }
 void buscaTodosRegistros(Banco *bd, Tabela **tab)
 {
-    double inicio,fim;
+    double inicio = 0,fim = 0;
     std::string chave;
     std::string nome;
+    Tabela * t = NULL;
+    Lista* l1 = NULL;
     GET_TIME(inicio);
     for(int i = 0; i<bd->retornarQtdTabelas();i++)
     {
         nome = tab[i]->retornaNomeTabela();
         Lista **l = tab[i]->retornaColunas();
         int k = 0;
-        while(k != tab[i]->retornaQtdCampos())
+        while(k != tab[i]->retornaTamanhoTabela())
         {
             if(l[k] != NULL)
             {
                 chave = l[k]->retornaID();
-                bd->retornarTabela(nome)->retornaLinha(chave);
-                for(;l[k] != NULL; l[k] = l[k]->retornaProximo())
+                t = bd->retornarTabela(nome);
+                if(t!= NULL)
+                    l1 = t->retornaLinha(chave);
+               /* if(l1!= NULL)
+                    l1->imprimeCampos();*/
+                for(l[k] = l[k]->retornaProximo();l[k] != NULL; l[k] = l[k]->retornaProximo())
                 {
                     chave = l[k]->retornaID();
-                    bd->retornarTabela(nome)->retornaLinha(chave);
+                    t = bd->retornarTabela(nome);
+                    if(t!= NULL)
+                        l1 = t->retornaLinha(chave);
+                    /*if(l1!= NULL)
+                        l1->imprimeCampos();*/
                 }
             } k++;
         }
     }
     GET_TIME(fim);
-    std::cout<<"Tempo para buscar todos registros "<<fim-inicio<<"ms\n\n"<<std::endl;
+    std::cout<<"Tempo para buscar todos registros "<<(fim-inicio)<<"s\n\n"<<std::endl;
 
 
 

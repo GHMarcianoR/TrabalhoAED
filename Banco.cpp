@@ -10,7 +10,7 @@ Banco::Banco(int tamanho)
     tabela = new Tabela*[qtdTabelas];
     for(int i =0; i<qtdTabelas; i++)
         tabela[i] = NULL;
-    qtdPosicoesOcupadas = 0;
+    qtdPosicoesOcupadas = 0;   //Inicializa as váriaveis utilizadas para criação do hashtable
 }
 int Banco::hash(std::string str)
 {
@@ -18,12 +18,14 @@ int Banco::hash(std::string str)
     for(int i=0; i<str.size(); i++)
     {
         hashedValue += str[i];
-        hashedValue *= 3367900313;
+        hashedValue *= 3367900313;    //Funcao de hash de multiplicação faz uso de 2 números primos grandes;
     }
     return  abs((int)hashedValue % qtdTabelas);
 
 
 }
+
+//Insere uma nova tabela no hashtable do banco
 void Banco::insereNovaTabela(Tabela *t)
 {
    if(t != NULL)
@@ -31,7 +33,7 @@ void Banco::insereNovaTabela(Tabela *t)
        int p = hash(t->retornaNomeTabela());
        if(qtdPosicoesOcupadas > qtdTabelas)
        {
-           redimensiona();
+           redimensiona();   //redimensiona a tabela para inserção de novos elementos;
        }
        if(tabela[p]==NULL)
        {
@@ -41,7 +43,7 @@ void Banco::insereNovaTabela(Tabela *t)
        else
        {
            Tabela* it =tabela[p];
-           while(it->retornaProximaTabela() != NULL)
+           while(it->retornaProximaTabela() != NULL) //Colisão tratado por encadeamento
                it = it->retornaProximaTabela();
            it->defineProximaTabela(t);
        }
@@ -50,6 +52,7 @@ void Banco::insereNovaTabela(Tabela *t)
 
 
 }
+//Funcao utilizada para re-indexação dos dados na hora do redimensionamento
 void Banco::insereNovaTabelaRedimensiona(Tabela *t)
 {
     if(t != NULL)
@@ -70,6 +73,7 @@ void Banco::insereNovaTabelaRedimensiona(Tabela *t)
 
     }
 }
+
 Tabela* Banco::retornarTabela(std::string nome)
 {
     int h = hash(nome);
@@ -85,6 +89,7 @@ Tabela* Banco::retornarTabela(std::string nome)
      }
 
 }
+//redimensiona o tamanho da tabela para a inserção de novos dados;
 void Banco::redimensiona()
 {
     int novoT = qtdTabelas*2;

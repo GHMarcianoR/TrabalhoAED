@@ -26,16 +26,16 @@ public:
     Tabela(int t);
     Tabela* retornaProximaTabela();
     Lista* retornaLinha(std::string str);
-    std::string retornaNomeTabela();
-     std::string* retornaCampos();
-    int retornaQtdCampos();
     Lista** retornaColunas();
+    std::string retornaNomeTabela();
+    std::string* retornaCampos();
+    int retornaQtdCampos();
+    int retornaTamanhoTabela();
 
 
     void defineProximaTabela(Tabela *t);
     void defineNomeTabela(std::string nome);
     void inserirCampos(Lista * l);
-    void estatisticas();
     void imprimir();
     void defineCampos(std::string *s, int tam);
 };

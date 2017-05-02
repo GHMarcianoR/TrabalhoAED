@@ -8,7 +8,7 @@ Tabela::Tabela(int t)
 {
 
     tamanhoTabela = t;
-    colunas = new Lista*[tamanhoTabela];
+    colunas = new Lista*[tamanhoTabela];    //Inicializa as váriaveis para a criação do Hashtable
     for(int i = 0; i<tamanhoTabela; i++)
         colunas[i] = NULL;
     qtdCampos = 0;
@@ -17,9 +17,8 @@ Tabela::Tabela(int t)
     nomeTabela ="";
     campos = NULL;
 
-
 }
-
+//retorna a Lista contida na tabela
 Lista*  Tabela::retornaLinha(std::string str)
 {
     int h = hash(str);
@@ -34,13 +33,15 @@ Lista*  Tabela::retornaLinha(std::string str)
     }
     return NULL;
 }
+
+//Define os campos da tabela, bem como a quantidade destes
 void Tabela::defineCampos(std::string *s, int tam)
 {
     qtdCampos = tam;
     campos  = s;
 }
 
-
+//Insere um novo registro na tabela
 void Tabela::inserirCampos(Lista *l)
 {
     if(l != NULL)
@@ -52,13 +53,13 @@ void Tabela::inserirCampos(Lista *l)
         }
         if(colunas[h] == NULL)
         {
-            colunas[h] = l;
+            colunas[h] = l;   //Inserção no caso em que não há colisão;
             qtdPosicoesOcupadas++;
         }
         else
         {
             Lista *it = colunas[h];
-            while(it->retornaProximo() != NULL)
+            while(it->retornaProximo() != NULL)  //Colisao tratada via encadeamento
                 it = it->retornaProximo();
             it->defineProximo(l);
         }
@@ -67,6 +68,7 @@ void Tabela::inserirCampos(Lista *l)
 
 
 }
+//Funcao utilizada para a re-indexação no caso em que há a necessidade de redimensionar a tabela
 void Tabela::inserirCamposRedimensiona(Lista *l)
 {
     if(l != NULL)
@@ -83,12 +85,14 @@ void Tabela::inserirCamposRedimensiona(Lista *l)
         }
     }
 }
+//Imprime os campos
 void Tabela::imprimir()
 {
     for(int i = 0; i<qtdCampos; i++)
         std::cout<<campos[i]<<"\t";
     std::cout<<"\n";
 }
+//Redimensiona a tabela para possibilitar a inserção de novos dados;
 void Tabela::redimensiona()
 {
     int novoT = tamanhoTabela*2;
@@ -106,7 +110,7 @@ void Tabela::redimensiona()
     tamanhoTabela = novoT;
 
 }
-
+//Hash da multiplicação faz uso de 2 números primos grandes
 int Tabela::hash(std::string s)
 {
    long int  h = 3628273133;
@@ -119,29 +123,11 @@ int Tabela::hash(std::string s)
 
 }
 
-void Tabela::estatisticas()
-{
-
-    int cont = 0;
-    for(int i = 0; i<tamanhoTabela; i++)
-            if(colunas[i] != NULL)
-            {
-                for(Lista* t = colunas[i]->retornaProximo();
-                    t != NULL;t = t->retornaProximo())
-                {
-                    cont++;
-                }
-
-
-            }
-    std::cout<<"Tabela "<<nomeTabela<<" Tamanho "<<tamanhoTabela<<" Posicoes ocupadas "<<qtdPosicoesOcupadas
-             <<" colisoes "<<cont<<" porcentagem "<<(cont+qtdPosicoesOcupadas)/tamanhoTabela<<std::endl;
-}
-
-int Tabela::retornaQtdCampos() {return qtdCampos;}
 std::string* Tabela::retornaCampos() {return campos;}
+std::string Tabela::retornaNomeTabela() {return nomeTabela;}
+Tabela* Tabela::retornaProximaTabela() { return proxima;}
+Lista** Tabela::retornaColunas(){return colunas;}
+int Tabela::retornaTamanhoTabela() {return tamanhoTabela;}
 void Tabela::defineProximaTabela(Tabela *t) {proxima = t;}
 void Tabela::defineNomeTabela(std::string nome) { nomeTabela = nome;}
-Tabela* Tabela::retornaProximaTabela() { return proxima;}
-std::string Tabela::retornaNomeTabela() {return nomeTabela;}
-Lista** Tabela::retornaColunas(){return colunas;}
+int Tabela::retornaQtdCampos() {return qtdCampos;}

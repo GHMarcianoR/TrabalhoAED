@@ -3,7 +3,7 @@
 //
 
 #include "Lista.h"
-
+//Inicializa as váriaveis para a criação da lista encadeada
 Lista::Lista(){ primeiro = ultimo = NULL; tamanho =0; prox = NULL; id = "";}
 Lista::~Lista()
 {
@@ -16,11 +16,13 @@ Lista::~Lista()
 
     }
 }
+//insere novo elemento na lista;
 void Lista::inserir(std::string nomeColuna, std::string val)
 {
     No *p = new No();
     p->setNomeColuna(nomeColuna);
     p->setInfo(val);
+    p->setProximo(NULL);
 
     if(primeiro == NULL)
     {
@@ -34,6 +36,7 @@ void Lista::inserir(std::string nomeColuna, std::string val)
     }
     else
     {
+
         ultimo->setProximo(p);
         ultimo = p;
     }
@@ -49,16 +52,19 @@ void Lista::imprime()
 }
 void Lista::imprimeCampos()
 {
-    No * p = primeiro;
-    while(p != NULL)
+    if(primeiro != NULL)
     {
-        if(p->getInfo() == "\t")
-            std::cout<<"NULL ";
-        else
-            std::cout<<p->getInfo()<<"\t";
-        p = p->getProximo();
+        No * p = primeiro;
+        while(p != NULL)
+        {
+            if(p->getInfo().find("\t") != std::string::npos)
+                std::cout<<"NULL ";
+            else
+                std::cout<<p->getInfo()<<"\t";
+            p = p->getProximo();
+        }
+        std::cout<<std::endl;
     }
-    std::cout<<std::endl;
 }
 void Lista::defineID(std::string id)
 {

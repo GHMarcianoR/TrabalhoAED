@@ -1,6 +1,3 @@
-//
-// Created by zumbi on 30/04/17.
-//
 
 #ifndef TRABALHOAED_TIMER_H
 #define TRABALHOAED_TIMER_H
