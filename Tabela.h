@@ -18,7 +18,6 @@ class Tabela {
     int tamanhoTabela;
     int qtdPosicoesOcupadas;
     int qtdCampos;
-
     int hash(std::string str);
     void redimensiona();
     void inserirCamposRedimensiona(Lista *l);
@@ -31,8 +30,9 @@ public:
     std::string* retornaCampos();
     int retornaQtdCampos();
     int retornaTamanhoTabela();
+    int retornaQTDColisao();
 
-
+    void estatistica();
     void defineProximaTabela(Tabela *t);
     void defineNomeTabela(std::string nome);
     void inserirCampos(Lista * l);

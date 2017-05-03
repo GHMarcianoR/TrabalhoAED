@@ -14,6 +14,7 @@ class Lista {
     std::string id;
     Lista *prox;
     int tamanho;
+    int contColisao = 0;
 
 public:
     Lista();
@@ -21,6 +22,7 @@ public:
     std::string retornaID();
     Lista* retornaProximo();
     int retornaTamanho();
+    int retornaQTDColisao();
 
     void inserir(std::string nomeColuna, std::string val);
     void imprimeCampos();

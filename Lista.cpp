@@ -57,7 +57,7 @@ void Lista::imprimeCampos()
         No * p = primeiro;
         while(p != NULL)
         {
-            if(p->getInfo().find("\t") != std::string::npos)
+            if(p->getInfo()== "\t")
                 std::cout<<"NULL ";
             else
                 std::cout<<p->getInfo()<<"\t";
@@ -74,7 +74,7 @@ void Lista::defineID(std::string id)
 void Lista::defineProximo(Lista *p)
 {
     prox = p;
-
+    contColisao++;;
 }
 Lista* Lista::retornaProximo()
 {
@@ -85,3 +85,4 @@ std::string Lista::retornaID()
     return id;
 }
 int Lista::retornaTamanho() {return tamanho;}
+int Lista::retornaQTDColisao() {return contColisao;}

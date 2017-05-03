@@ -17,11 +17,13 @@ class Banco {
     int hash(std::string str);
     void insereNovaTabelaRedimensiona(Tabela* t);
     void redimensiona();
+
 public:
     Banco(int tamanho);
     void insereNovaTabela(Tabela *t);
     Tabela* retornarTabela(std::string nome);
     int retornarQtdTabelas();
+    Tabela **retornaTabela();
 
 
 };

@@ -62,6 +62,7 @@ void Tabela::inserirCampos(Lista *l)
             while(it->retornaProximo() != NULL)  //Colisao tratada via encadeamento
                 it = it->retornaProximo();
             it->defineProximo(l);
+
         }
 
     }
@@ -103,9 +104,10 @@ void Tabela::redimensiona()
     for(int i = 0; i<novoT; i++)
         colunas[i]= NULL;
 
-    for(int i = 0; i<tamanhoTabela; ++i)
+    for(int i = 0; i<tamanhoTabela; ++i) {
         if (col[i] != NULL)
-              inserirCamposRedimensiona(col[i]);
+            inserirCamposRedimensiona(col[i]);
+     }
 
     tamanhoTabela = novoT;
 
@@ -113,13 +115,27 @@ void Tabela::redimensiona()
 //Hash da multiplicação faz uso de 2 números primos grandes
 int Tabela::hash(std::string s)
 {
-   long int  h = 3628273133;
+ /*  long int  h = 3628273133;
     for(int i=0; i<s.size(); i++)
     {
         h += s[i];
         h *= 3367900313;
     }
     return  abs((int)h % tamanhoTabela);
+
+  */std::hash<std::string> hs;
+    return abs((int) hs(s)%tamanhoTabela);
+}
+
+void Tabela::estatistica()
+{
+    int total = -1;
+    for(int i = 0; i<tamanhoTabela; i++)
+        if(colunas[i] != NULL)
+            total += colunas[i]->retornaQTDColisao();
+    std::cout<<"Nome Tabela: "<<nomeTabela<<", Tamanho tabela"<<tamanhoTabela
+             <<", Quantidade posicoes ocupadas "<<qtdPosicoesOcupadas
+             <<", Colisoes "<<total<<std::endl;
 
 }
 
@@ -131,3 +147,4 @@ int Tabela::retornaTamanhoTabela() {return tamanhoTabela;}
 void Tabela::defineProximaTabela(Tabela *t) {proxima = t;}
 void Tabela::defineNomeTabela(std::string nome) { nomeTabela = nome;}
 int Tabela::retornaQtdCampos() {return qtdCampos;}
+

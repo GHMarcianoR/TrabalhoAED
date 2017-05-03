@@ -73,6 +73,7 @@ void Banco::insereNovaTabelaRedimensiona(Tabela *t)
 
     }
 }
+Tabela **Banco::retornaTabela(){return tabela ;}
 
 Tabela* Banco::retornarTabela(std::string nome)
 {
